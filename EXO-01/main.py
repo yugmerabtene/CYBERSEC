@@ -1,16 +1,21 @@
-# This is a sample Python script.
+import platform
+import subprocess
 
-# Press Maj+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+#demander une adresse ip à l'utilisateur
+ip = input("entrez une adresse ip a ping : ")
+# on detecte l'os pour adapté la commande
+param = "-n" if platform.system().lower() == "windows" else "-c"
+#Construction du ping dans un list
+commande = ["ping", param, "1", ip]
 
+print("Ping en cours")
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
-
-
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+#on execute le ping
+try:
+    result = subprocess.run(commande, stdout=subprocess.DEVNULL)
+    if result.returncode == 0:
+        print("La cible est en ligne")
+    else:
+        print("Aucune réponse")
+except Exception as e:
+    print(f"Erreur lors du ping {e}")
